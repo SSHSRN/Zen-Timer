@@ -7,45 +7,157 @@
     <title>Document</title>
 </head>
 <style>
-    .track{
-        stroke: lightgray;  /* border color. */
-        fill: none; /* The inner color is removed. */
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    html{
+        background: linear-gradient(180deg, #93B3F1 -20%, #1D38C5 40%, #1D38C5 60%, #93B3F1 120%);
     }
 
-    .progress{
-        fill: none;
-        stroke: black;
-        stroke-width: 10px;
-        /* stroke-dasharray: 630; */    /* stroke-dasharray => creates a dashed line along the circumference of the circle. */
-        /* stroke-dashoffset: 10; */  /* Helps in revealing the gap. */
-        /* Lower the stroke-dashoffset value, higher the progress. */
-
-        /* To start the progress from the top... */
-        transform: rotate(270deg);
-        transform-origin: center;   /* The transform origin is the point around which a transformation is applied. */
+    .signUpLogin_div{
+        width: 40%;
+        height: 500px;
+        background-color: rgb(100, 100, 190);
+        border: 3px solid rgb(215, 245, 251);
+        border-radius: 20px;
+        margin-top: 5%;
     }
+    button{
+        padding: 20px 50px;
+        cursor: pointer;
+        border-radius: 30px;
+    }
+
+    a{
+        text-decoration:none;
+    }
+
+    li{
+        display: inline;
+        color: white;
+        text-decoration:none;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size:20px;
+        float:left;
+        width:50%;
+        text-align:center;
+        cursor:pointer;
+    }
+
+    .signup_li:hover{
+        background-color: rgb(203, 245, 246);
+        border-radius: 15px 0px 0px 0px;
+        color: black;
+    }
+
+    .login_li:hover{
+        background-color: rgb(203, 245, 246);
+        border-radius: 0px 15px 0px 0px;
+        color: black;
+    }
+
+    .login{
+        display: none;
+        margin-top: 11%;
+    }
+
+    .signup{
+        /* display: none; */
+        display: block;
+        margin-top: 11%;
+    }
+
+    .subbtn {
+        margin-top: 30px;
+    }
+
+    button.btn {
+        border-radius: 25px;
+        border: 1px solid;
+        transition: all 0.7s;
+        padding: 5px 40px;
+    }
+
+    button.btn:hover {
+        background: linear-gradient(to right, #789ecf, #2b3dc7);
+        border-radius: 25px;
+        letter-spacing: 2px;
+        cursor: pointer;
+        transition: all 0.4s;
+        color: white;
+    }
+
+    .form-control{
+        padding: 10px;
+        border-radius: 20px;
+    }
+
 </style>
 <body>
-    <svg width="250" height="250">
-        <!-- Background circle -->
-        <circle r="100" cx="125" cy="125" class="track"></circle>
-        <!-- cx,cy => co-ordinates of circle center -->
+    <center><div class="signUpLogin_div">
+        <center><ul class="tab-group">
+            <li onclick="toggleSignUp()" class="signup_li">Sign Up</li>
+            <li onclick="toggleLogin()" class="login_li">Log In</li>
+        </ul></center>
 
-        <!-- Circle for progress -->
-        <circle r="100" cx="125" cy="125" class="progress"></circle>
-    </svg>
+        <!-- Div for login -->
+        <div class="login" id="login">
+            <div class="form-group">
+                <p>Email</p>
+                <input class="form-control" id="email" placeholder="Enter your Email">
+            </div>
+
+            <div class="form-group">
+                <p>Password</p>
+                <input type="password" class="form-control " id="password" placeholder="Password">
+            </div>
+
+            <div class="subbtn">
+                <button type="submit" id="login" class="btn">Login</button>
+            </div>
+        </div>
+
+        <!-- Div for signup -->
+        <div class="signup" id="signup">
+            <div class="form-group">
+                <p>Your name</p>
+                <input class="form-control" id="userName" placeholder="Enter Your Name">
+            </div>
+
+            <div class="form-group">
+                <p>Email</p>
+                <input class="form-control" id="email" placeholder="Enter your Email">
+            </div>
+
+            <div class="form-group">
+                <p>Password</p>
+                <input type="password" class="form-control " id="password" placeholder="Set a strong Password">
+            </div>
+
+            <div class="subbtn">
+                <button type="submit" id="signUp" class="btn">Signup</button>
+            </div>
+        </div>
+
+
+
+        <button style="margin-top: 20%;">Sign-In with Google</button>
+    </div></center>
+
 
     <script>
-        let progressCircle = document.querySelector(".progress");
-        let radius = progressCircle.r.baseVal.value;
-        let circumference = 2 * Math.PI * radius;
-        progressCircle.style.strokeDasharray = circumference;
+        a = document.getElementById("login");
+        b = document.getElementById("signup");
+        function toggleLogin() {
+            a.style.display = "block";
+            b.style.display = "none";
+        }
 
-        setProgress(20);
-
-        // Setting progress in percentage
-        function setProgress(percent) {
-            progressCircle.style.strokeDashoffset = circumference - ( ( percent / 100 ) * circumference );
+        function toggleSignUp() {
+            b.style.display = "block";
+            a.style.display = "none";
         }
     </script>
 </body>
