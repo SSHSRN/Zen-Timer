@@ -6,7 +6,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    .track{
+        stroke: lightgray;  /* border color. */
+        fill: none; /* The inner color is removed. */
+    }
+
+    .progress{
+        fill: none;
+        stroke: black;
+        stroke-width: 10px;
+        /* stroke-dasharray: 630; */    /* stroke-dasharray => creates a dashed line along the circumference of the circle. */
+        /* stroke-dashoffset: 10; */  /* Helps in revealing the gap. */
+        /* Lower the stroke-dashoffset value, higher the progress. */
+
+        /* To start the progress from the top... */
+        transform: rotate(270deg);
+        transform-origin: center;   /* The transform origin is the point around which a transformation is applied. */
+    }
+</style>
 <body>
-    
+    <svg width="250" height="250">
+        <!-- Background circle -->
+        <circle r="100" cx="125" cy="125" class="track"></circle>
+        <!-- cx,cy => co-ordinates of circle center -->
+
+        <!-- Circle for progress -->
+        <circle r="100" cx="125" cy="125" class="progress"></circle>
+    </svg>
+
+    <script>
+        let progressCircle = document.querySelector(".progress");
+        let radius = progressCircle.r.baseVal.value;
+        let circumference = 2 * Math.PI * radius;
+        progressCircle.style.strokeDasharray = circumference;
+
+        setProgress(20);
+
+        // Setting progress in percentage
+        function setProgress(percent) {
+            progressCircle.style.strokeDashoffset = circumference - ( ( percent / 100 ) * circumference );
+        }
+    </script>
 </body>
 </html>
