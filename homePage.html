@@ -174,7 +174,6 @@
 				</div>
 			</div>
 		</div>
-<br>
 
 		<!-- Modals -->
 		<!-- Settings Modal -->
@@ -358,7 +357,7 @@
 
 					<!-- User Image -->
 					<div class="modal-body">
-						<center><img id="userImage" style="border-radius: 100%;" alt="" srcset=""></center><hr>
+						<center><img id="userImage" style="border-radius: 100%;" alt="" srcset=""></center>
 					</div>
 
 					<!-- User Name -->
@@ -371,7 +370,7 @@
 								<p style="display: block;" id="userName"></p>
 							</label>
 						</div>
-					</div><br>
+					</div>
 
 
 					<!-- User Email -->
@@ -496,7 +495,6 @@
 			crossorigin="anonymous"
 		></script>
 
-    <button id="logout">Logout</button>
 
     <script type="module">
         // Import the functions you need from the SDKs you need
@@ -534,6 +532,12 @@
                 // https://firebase.google.com/docs/reference/js/firebase.User
                 const uid = user.uid;
                 console.log(user.email + " has signed in.");
+                console.log(user.displayName);
+				console.log(user);
+				document.getElementById("userName").innerText = user.displayName.replace(" ", "\u00A0");
+				// \u00A0 => To add a non breaking space => does not let the name get separated into two lines.
+				document.getElementById("userEmail").innerText = user.email;
+				document.getElementById("userImage").src = user.photoURL;
                 // ...
             } else {
                 // User is signed out
@@ -542,7 +546,7 @@
             }
         });
 
-        logout.addEventListener('click', (e) => {
+        logoutButton.addEventListener('click', (e) => {
             signOut(auth)
                 .then(() => {
                     // Sign-out successful.
