@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You came to the wrong place, buddy!</title>
+</head>
+<style>
+    *{
+        background-color: black;
+    }
+    .click_bait{
+        color: red;
+    }
+
+    #vid {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
+    }
+
+
+    /* Add some content at the bottom of the video/page */
+    .content {
+        position: fixed;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        color: #f1f1f1;
+        width: 100%;
+        padding: 20px;
+    }
+
+    .overall_container{
+        display: none;
+    }
+
+    h1{
+        font-size: 40px;
+        color: red;
+    }
+
+    p{
+        font-size: 30px;
+        color: red;
+    }
+
+
+</style>
+<body>
+    <!-- We are adding a clickbait as we cannot directly play an audio on pageload. -->
+    <center><div class="click_bait" id="click_bait">
+        <h1>Click anywhere to continue</h1>
+    </div></center>
+    <div class="overall_container" id="overall_container">
+        <video src="assets/videos/blast.mp4" id="vid"></video>
+        <center><div class="content">
+            <h1>!!!ERROR!!!</h1>
+            <p>You are not authorized to view this site</p>
+        </div></center>
+    </div>
+
+<script>
+
+    function playVideo(){
+        document.getElementById("vid").play();
+    }
+
+    function toggle_and_play() {
+        document.getElementById("click_bait").style.display = "none";
+        document.getElementById("overall_container").style.display = "block";
+        playVideo();
+    }
+
+    document.addEventListener("click", toggle_and_play);
+
+    var vid = document.getElementById("vid");
+    vid.onended = function() {
+        // alert("It's all over!");
+
+        // window.close();
+        // Tried closing the window, but it doesn't work.
+        // Scripts may close only the windows that were opened by them...
+
+        // Thus, redirecting to the signup login page.
+        window.location.replace("index.html");
+    }
+
+</script>
+
+</body>
+</html>
