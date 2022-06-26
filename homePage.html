@@ -35,6 +35,71 @@
         <circle r="100" cx="125" cy="125" class="progress"></circle>
     </svg>
 
+    <button id="logout">Logout</button>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-analytics.js";
+        import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-database.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyDHPld5erEixj2-3bWuEcLsxBst6Z-ZU-4",
+          authDomain: "simplihacks-efficiency-meter.firebaseapp.com",
+          projectId: "simplihacks-efficiency-meter",
+          storageBucket: "simplihacks-efficiency-meter.appspot.com",
+          messagingSenderId: "112495619584",
+          appId: "1:112495619584:web:96b2ce78d269b1eff472e5",
+          measurementId: "G-83DG80QDWC"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
+        const auth = getAuth();
+        console.log("Firebase initialised");
+
+        // Logout
+        const user = auth.currentUser;
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                const uid = user.uid;
+                alert(user.email + " has signed in.");
+                // ...
+            } else {
+                // User is signed out
+                // alert("No user is signed in.");
+                window.location.replace("error.html");
+            }
+        });
+
+        logout.addEventListener('click', (e) => {
+            signOut(auth)
+                .then(() => {
+                    // Sign-out successful.
+                    alert("User signed out!");
+                    window.location.replace("index.html");
+                })
+                .catch((error) => {
+                    // An error happened.
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert(errorMessage);
+                });
+        });
+        
+      </script>
+
+
+
     <script>
         let progressCircle = document.querySelector(".progress");
         let radius = progressCircle.r.baseVal.value;

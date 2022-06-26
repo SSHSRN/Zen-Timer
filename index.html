@@ -103,15 +103,15 @@
         </ul></center>
 
         <!-- Div for login -->
-        <div class="login" id="login">
+        <div class="login" id="login_div">
             <div class="form-group">
                 <p>Email</p>
-                <input class="form-control" id="email" placeholder="Enter your Email">
+                <input class="form-control" id="l-email" placeholder="Enter your Email">
             </div>
 
             <div class="form-group">
                 <p>Password</p>
-                <input type="password" class="form-control " id="password" placeholder="Password">
+                <input type="password" class="form-control " id="l-password" placeholder="Password">
             </div>
 
             <div class="subbtn">
@@ -120,20 +120,20 @@
         </div>
 
         <!-- Div for signup -->
-        <div class="signup" id="signup">
+        <div class="signup" id="signup_div">
             <div class="form-group">
                 <p>Your name</p>
-                <input class="form-control" id="userName" placeholder="Enter Your Name">
+                <input class="form-control" id="s-userName" placeholder="Enter Your Name">
             </div>
 
             <div class="form-group">
                 <p>Email</p>
-                <input class="form-control" id="email" placeholder="Enter your Email">
+                <input class="form-control" id="s-email" placeholder="Enter your Email">
             </div>
 
             <div class="form-group">
                 <p>Password</p>
-                <input type="password" class="form-control " id="password" placeholder="Set a strong Password">
+                <input type="password" class="form-control " id="s-password" placeholder="Set a strong Password">
             </div>
 
             <div class="subbtn">
@@ -147,9 +147,107 @@
     </div></center>
 
 
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-analytics.js";
+        import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-database.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyDHPld5erEixj2-3bWuEcLsxBst6Z-ZU-4",
+          authDomain: "simplihacks-efficiency-meter.firebaseapp.com",
+          projectId: "simplihacks-efficiency-meter",
+          storageBucket: "simplihacks-efficiency-meter.appspot.com",
+          messagingSenderId: "112495619584",
+          appId: "1:112495619584:web:96b2ce78d269b1eff472e5",
+          measurementId: "G-83DG80QDWC"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
+        const auth = getAuth();
+        console.log("Firebase initialised");
+
+        // Signup with email password
+        signUp.addEventListener('click', (e) => {
+            var email = document.getElementById("s-email").value;
+            console.log(email);
+            var password = document.getElementById("s-password").value;
+            console.log(password);
+            var userName = document.getElementById("s-userName").value;
+            console.log(userName);
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    set(ref(database,'users/' + user.uid), {
+                        userName: userName,
+                        email: email
+                    });
+                    // Never save password to the database.
+                    console.log("Created account Successfully!");
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert(errorMessage);
+                    // ..
+                });
+        });
+
+
+        // Login with email password
+        login.addEventListener('click', (e) => {
+            var email = document.getElementById("l-email").value;
+            console.log(email);
+            var password = document.getElementById("l-password").value;
+            console.log(password);
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    // ...
+                    const dt = new Date();
+                    update(ref(database,'users/'+user.uid), {
+                        last_login: dt,
+                    })
+                    console.log("User logged in Successfully!");
+                    window.location.replace("homePage.html");
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert(errorMessage);
+                });
+        });
+
+        const user = auth.currentUser;
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                const uid = user.uid;
+                // ...
+            } else {
+                // User is signed out
+                // ...
+            }
+        });
+      </script>
+
+
     <script>
-        a = document.getElementById("login");
-        b = document.getElementById("signup");
+        a = document.getElementById("login_div");
+        b = document.getElementById("signup_div");
         function toggleLogin() {
             a.style.display = "block";
             b.style.display = "none";
