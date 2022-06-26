@@ -1,0 +1,17 @@
+.track{
+    stroke: lightgray;  /* border color. */
+    fill: none; /* The inner color is removed. */
+}
+
+.progress{
+    fill: none;
+    stroke: black;
+    stroke-width: 10px;
+    /* stroke-dasharray: 630; */    /* stroke-dasharray => creates a dashed line along the circumference of the circle. */
+    /* stroke-dashoffset: 10; */  /* Helps in revealing the gap. */
+    /* Lower the stroke-dashoffset value, higher the progress. */
+
+    /* To start the progress from the top... */
+    transform: rotate(270deg);
+    transform-origin: center;   /* The transform origin is the point around which a transformation is applied. */
+}
