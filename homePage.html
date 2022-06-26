@@ -55,7 +55,7 @@
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/firebase.User
                 const uid = user.uid;
-                alert(user.email + " has signed in.");
+                console.log(user.email + " has signed in.");
                 // ...
             } else {
                 // User is signed out
@@ -68,7 +68,7 @@
             signOut(auth)
                 .then(() => {
                     // Sign-out successful.
-                    alert("User signed out!");
+                    // alert("User signed out!");
                     window.location.replace("index.html");
                 })
                 .catch((error) => {
