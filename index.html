@@ -141,11 +141,8 @@
             </div>
         </div>
 
-
-
         <button id="signInWithGoogle" style="margin-top: 20%;">Sign-In with Google</button>
     </div></center>
-
 
     <script type="module">
         // Import the functions you need from the SDKs you need
@@ -189,7 +186,7 @@
                     // const user = result.user;
                     // alert(user.displayName+' has logged in!');
 
-                    window.location.replace("index1.html");
+                    window.location.replace("homePage.html");
                 }).catch((error) => {
                     // Handle Errors here.
                     const errorCode = error.code;
@@ -232,7 +229,6 @@
                 });
         });
 
-
         // Login with email password
         login.addEventListener('click', (e) => {
             var email = document.getElementById("l-email").value;
@@ -272,7 +268,6 @@
             }
         });
       </script>
-
 
     <script>
         a = document.getElementById("login_div");

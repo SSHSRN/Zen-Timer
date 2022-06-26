@@ -4,19 +4,497 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="homePage.css">
+	<link rel="shortcut icon" href="" type="image/x-icon">
+	<link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap" rel="stylesheet"/>
+
     <title>ZenTimer - Spend your time productively!</title>
 </head>
 
-<body>
-    <svg width="250" height="250">
-        <!-- Background circle -->
-        <circle r="100" cx="125" cy="125" class="track"></circle>
-        <!-- cx,cy => co-ordinates of circle center -->
+<body style="height: 100%;">
+		<!-- Main Content -->
+		<div class="border-bottom" id="mainPage">
+			<!-- Alert -->
+			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <!-- Alert message -->
+				<span id="alertMessage"></span>
+                <!-- Close button -->
+				<button type="button" class="close" onclick="dismissAlert()" aria-label="Close">
+					<span aria-hidden="true"><i class="fas fa-times fa-lg mt-1"></i></span>
+				</button>
+			</div>
 
-        <!-- Circle for progress -->
-        <circle r="100" cx="125" cy="125" class="progress"></circle>
-    </svg>
+			<!-- Brand Name -->
+			<div class="d-flex justify-content-center navbar navbar-light bg-light border-bottom">
+				<nav class="navbar navbar-light bg-light py-0 justify-content-center" id="brand">
+                    <!-- icon => <img src="" alt=""> -->
+					<span id="brandName">ZenTimer</span>
+				</nav>
+			</div>
+			<!-- NAVBAR -->
+			<div class="container mt-3">
+				<div class="row justify-content-end">
+					<div class="col-6 px-0">
+						<ul class="nav nav-pills">
+
+							<!-- Focus -->
+							<div class="col-lg-4 px-0">
+								<a class="nav-link active pt-2 nav-underline" 
+									id="pomodoros" 
+									data-toggle="tab" 
+									role="tab" 
+									aria-selected="false" 
+									href="/">
+									Focus
+								</a>
+							</div>
+
+							<!-- Short Break -->
+							<div class="col-lg-4 px-0">
+								<a class="nav-link pt-2 nav-underline" 
+									id="shortBreak" 
+									data-toggle="tab" 
+									role="tab" 
+									aria-selected="false" 
+									href="/">
+									Short Break
+								</a>
+							</div>
+
+							<!-- Long Break -->
+							<div class="col-lg-4 px-0">
+								<a class="nav-link pt-2 nav-underline" 
+									id="longBreak" 
+									data-toggle="tab" 
+									role="tab" 
+									aria-selected="false" 
+									href="/">
+									Long Break
+								</a>
+							</div>
+						</ul>
+					</div>
+					<div class="col-3">
+						<ul class="nav nav-pills justify-content-end">
+
+							<!-- To Do -->
+							<li class="nav-item">
+								<a 
+                                    class="nav-link px-2 d-none d-md-block " data-toggle="modal" data-target="#toDoModal" href="#">
+									<svg width="25" height="25" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M43.75 62.25C40.4348 62.25 37.2554 63.567 34.9112 65.9112C32.567 68.2554 31.25 71.4348 31.25 74.75V137.25C31.25 140.565 32.567 143.745 34.9112 146.089C37.2554 148.433 40.4348 149.75 43.75 149.75H106.25C109.565 149.75 112.745 148.433 115.089 146.089C117.433 143.745 118.75 140.565 118.75 137.25V74.75C118.75 71.4348 117.433 68.2554 115.089 65.9112C112.745 63.567 109.565 62.25 106.25 62.25H43.75ZM68.75 127.337L51.8313 110.419L60.6687 101.581L68.75 109.663L92.4563 85.9563L101.294 94.7937L68.75 127.337Z" fill="#007BFF"/>
+										<rect x="31" y="362" width="88" height="88" rx="10" fill="#007BFF"/>
+										<path d="M43.75 212.25C40.4348 212.25 37.2554 213.567 34.9112 215.911C32.567 218.255 31.25 221.435 31.25 224.75V287.25C31.25 290.565 32.567 293.745 34.9112 296.089C37.2554 298.433 40.4348 299.75 43.75 299.75H106.25C109.565 299.75 112.745 298.433 115.089 296.089C117.433 293.745 118.75 290.565 118.75 287.25V224.75C118.75 221.435 117.433 218.255 115.089 215.911C112.745 213.567 109.565 212.25 106.25 212.25H43.75ZM68.75 277.337L51.8313 260.419L60.6687 251.581L68.75 259.663L92.4563 235.956L101.294 244.794L68.75 277.337Z" fill="#007BFF"/>
+										<rect x="150" y="78" width="325" height="55" rx="27.5" fill="#007BFF"/>
+										<rect x="150" y="378" width="325" height="55" rx="27.5" fill="#007BFF"/>
+										<rect x="150" y="228" width="325" height="55" rx="27.5" fill="#007BFF"/>
+									</svg>
+								</a>
+							</li>
+
+							<!-- Analytics -->
+							<li class="nav-item">
+								<a 
+                                    class="nav-link pl-2 pr-0 ml-2 d-none d-md-block " 
+                                    data-toggle="modal" 
+                                    data-target="#loggingModal" 
+                                    href="#"
+                                    >
+									<svg width="25" height="25" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M64 32H32V448C32 456.487 35.3714 464.626 41.3726 470.627C47.3737 476.629 55.5131 480 64 480H480V448H64V32Z" fill="#007BFF"/>
+										<path d="M480 144H368V176H425.44L304 297.44L235.36 228.64C233.873 227.14 232.103 225.95 230.153 225.138C228.203 224.325 226.112 223.907 224 223.907C221.888 223.907 219.797 224.325 217.847 225.138C215.897 225.95 214.127 227.14 212.64 228.64L96 345.44L118.56 368L224 262.56L292.64 331.36C294.127 332.86 295.897 334.05 297.847 334.862C299.797 335.675 301.888 336.093 304 336.093C306.112 336.093 308.203 335.675 310.153 334.862C312.103 334.05 313.873 332.86 315.36 331.36L448 198.56V256H480V144Z" fill="#007BFF"/>
+									</svg>
+								</a>
+							</li>
+
+							<!-- Settings -->
+							<li class="nav-item">
+								<a
+									class="nav-link pl-2 pr-0 ml-2 d-none d-md-block "
+									data-toggle="modal"
+									data-target="#settingsModal"
+									href="#"
+									>
+									<svg width="25" height="25" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M432 268.16V243.68L462.72 216.8C468.383 211.809 472.099 204.976 473.211 197.51C474.324 190.044 472.761 182.425 468.8 176L431.04 112C428.234 107.14 424.2 103.104 419.341 100.295C414.483 97.4871 408.972 96.0058 403.36 96C399.882 95.9734 396.424 96.5138 393.12 97.6L354.24 110.72C347.527 106.259 340.525 102.25 333.28 98.72L325.12 58.4C323.657 51.0337 319.649 44.4167 313.799 39.7072C307.949 34.9978 300.629 32.4961 293.12 32.64H218.24C210.731 32.4961 203.411 34.9978 197.561 39.7072C191.711 44.4167 187.703 51.0337 186.24 58.4L178.08 98.72C170.783 102.25 163.728 106.258 156.96 110.72L118.88 96.96C115.541 96.09 112.083 95.7658 108.64 96C103.028 96.0058 97.517 97.4871 92.6586 100.295C87.8002 103.104 83.7658 107.14 80.96 112L43.2 176C39.4654 182.416 38.0776 189.931 39.2744 197.257C40.4711 204.584 44.178 211.266 49.76 216.16L80 243.84V268.32L49.76 295.2C44.0203 300.128 40.2121 306.93 39.0112 314.399C37.8103 321.868 39.2943 329.521 43.2 336L80.96 400C83.7658 404.86 87.8002 408.896 92.6586 411.705C97.517 414.513 103.028 415.994 108.64 416C112.118 416.027 115.576 415.486 118.88 414.4L157.76 401.28C164.473 405.741 171.475 409.75 178.72 413.28L186.88 453.6C188.343 460.966 192.351 467.583 198.201 472.293C204.051 477.002 211.371 479.504 218.88 479.36H294.4C301.909 479.504 309.229 477.002 315.079 472.293C320.929 467.583 324.937 460.966 326.4 453.6L334.56 413.28C341.857 409.75 348.912 405.742 355.68 401.28L394.4 414.4C397.704 415.486 401.162 416.027 404.64 416C410.252 415.994 415.763 414.513 420.621 411.705C425.48 408.896 429.514 404.86 432.32 400L468.8 336C472.535 329.584 473.922 322.069 472.726 314.743C471.529 307.416 467.822 300.734 462.24 295.84L432 268.16ZM403.36 384L348.48 365.44C335.633 376.322 320.95 384.828 305.12 390.56L293.76 448H218.24L206.88 391.2C191.175 385.305 176.571 376.814 163.68 366.08L108.64 384L70.88 320L114.4 281.6C111.442 265.038 111.442 248.082 114.4 231.52L70.88 192L108.64 128L163.52 146.56C176.367 135.678 191.05 127.172 206.88 121.44L218.24 64H293.76L305.12 120.8C320.825 126.695 335.429 135.186 348.32 145.92L403.36 128L441.12 192L397.6 230.4C400.558 246.962 400.558 263.918 397.6 280.48L441.12 320L403.36 384Z" fill="#007BFF"/>
+										<path d="M256 352C237.013 352 218.452 346.37 202.665 335.821C186.878 325.272 174.574 310.279 167.308 292.738C160.042 275.196 158.14 255.894 161.845 237.271C165.549 218.649 174.692 201.544 188.118 188.118C201.544 174.692 218.649 165.549 237.271 161.845C255.894 158.14 275.196 160.042 292.738 167.308C310.279 174.574 325.272 186.878 335.821 202.665C346.37 218.452 352 237.013 352 256C352.128 268.643 349.733 281.184 344.954 292.889C340.175 304.594 333.108 315.228 324.168 324.168C315.228 333.108 304.594 340.175 292.889 344.954C281.184 349.733 268.643 352.128 256 352V352ZM256 192C247.542 191.803 239.131 193.324 231.277 196.47C223.423 199.617 216.289 204.324 210.306 210.306C204.324 216.289 199.617 223.423 196.47 231.277C193.324 239.131 191.803 247.542 192 256C191.803 264.458 193.324 272.869 196.47 280.723C199.617 288.577 204.324 295.711 210.306 301.694C216.289 307.676 223.423 312.383 231.277 315.53C239.131 318.676 247.542 320.197 256 320C264.458 320.197 272.869 318.676 280.723 315.53C288.577 312.383 295.711 307.676 301.694 301.694C307.676 295.711 312.383 288.577 315.53 280.723C318.676 272.869 320.197 264.458 320 256C320.197 247.542 318.676 239.131 315.53 231.277C312.383 223.423 307.676 216.289 301.694 210.306C295.711 204.324 288.577 199.617 280.723 196.47C272.869 193.324 264.458 191.803 256 192Z" fill="#007BFF"/>
+									</svg>
+								</a>
+							</li>
+
+							<!-- User -->
+							<li class="nav-item">
+								<a
+									class="nav-link pl-2 pr-0 ml-2 d-none d-md-block "
+									data-toggle="modal"
+									data-target="#userSettingsModal"
+									href="#"
+									>
+									<svg width="25" height="25" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M256 42.6667C140.352 42.6667 42.6666 140.352 42.6666 256C42.6666 371.648 140.352 469.333 256 469.333C371.648 469.333 469.333 371.648 469.333 256C469.333 140.352 371.648 42.6667 256 42.6667ZM256 149.333C292.843 149.333 320 176.469 320 213.333C320 250.197 292.843 277.333 256 277.333C219.179 277.333 192 250.197 192 213.333C192 176.469 219.179 149.333 256 149.333ZM147.072 357.803C166.208 329.643 198.123 310.869 234.667 310.869H277.333C313.899 310.869 345.792 329.643 364.928 357.803C337.664 386.987 298.987 405.333 256 405.333C213.013 405.333 174.336 386.987 147.072 357.803Z" fill="#007BFF"/>
+									</svg>										
+								</a>
+							</li>							
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- Timer and Buttons -->
+			<div class="container-fluid">
+				<div class="row">
+					<!-- Time Left and Progress Bar -->
+					<div class="col-12 pt-0 d-flex justify-content-center">
+						<div class="radial-progress-bar progress-value">
+							<div class="overlay">
+								<h1 id="timeLeft"></h1>
+							</div>
+						</div>
+					</div>
+					<!-- Start, Stop, Reset Buttons -->
+					<div class="col-12">
+						<div class="container d-flex justify-content-around">
+							<div class="row">
+								<div class="col-md-4">
+									<button type="button" class="btn btn-lg btn-success" id="startButton">Start</button>
+								</div>
+								<div class="col-md-4">
+									<button type="button" class=" btn btn-lg btn-danger " id="stopButton">Stop</button>
+								</div>
+								<div class="col-md-4">
+									<button type="button" class="btn  btn-lg btn-secondary" id="resetButton">Reset</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<br>
+
+		<!-- Modals -->
+		<!-- Settings Modal -->
+		<div
+			class="modal fade"
+			data-keyboard="true"
+			id="settingsModal"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="settingsModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title ml-3">Settings</h3>
+						<button type="button" class="close " data-dismiss="modal" aria-label="Close">
+							<span class="modal-close-button mt-2" aria-hidden="true"><i class="fas fa-times fa-lg mt-2 mr-2"></i></span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<!-- Selecting Timings -->
+						<div class="row ml-1">
+							<div class="col-12">
+								<p class="h6 text-muted">Time (Minutes)</p>
+							</div>
+							<div class="col-lg-4">
+								<div class="input-group mb-2">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="inputGroup-sizing-default">Focus</span>
+									</div>
+									<input id="pomodoroInput" type="number" min="1" step="1" class="form-control" />
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="input-group mb-2">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="inputGroup-sizing-default">Short Break</span>
+									</div>
+									<input id="shortBreakInput" type="number" min="1" step="1" class="form-control" />
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="input-group mb-2">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="inputGroup-sizing-default">Long Break</span>
+									</div>
+									<input id="longBreakInput" type="number" min="1" step="1" class="form-control" />
+								</div>
+							</div>
+						</div>
+
+						<hr />
+						<!-- Auto Start Next Round -->
+						<div class="row ml-1">
+							<div class="col">
+								<p class="h6 text-muted mt-2">Auto Start Rounds</p>
+							</div>
+							<div class="col">
+								<label class="switch">
+									<input id="autoStartRoundsInput" type="checkbox" />
+									<span class="slider round"></span>
+								</label>
+							</div>
+						</div>
+
+						<hr />
+						<!-- Long Break Interval -->
+						<div class="row ml-1">
+							<div class="col">
+								<p class="h6 text-muted mt-2">Long Break Interval</p>
+							</div>
+							<div class="col">
+								<form>
+									<div class="row">
+										<div class="col">
+											<input type="range" class="custom-range" min="1" max="12" id="longBreakIntervalInput" />
+										</div>
+										<div class="col">
+											<p class="font-weight-bold" id="sliderValue"></p>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+
+						<hr />
+						<!-- Tick Sounds -->
+						<div class="row ml-1">
+							<div class="col">
+								<p class="h6 text-muted mt-2">Tick Sounds</p>
+							</div>
+							<div class="col">
+								<label class="switch">
+									<input id="tickSoundInput" type="checkbox" />
+									<span class="slider round"></span>
+								</label>
+							</div>
+						</div>
+
+						<hr />
+						<!-- Ending Notification Sound -->
+						<div class="row ml-1">
+							<div class="col-sm-6">
+								<p class="h6 text-muted mt-2">Timer Ending Notification</p>
+							</div>
+							<div class="col-sm-6">
+								<div class="input-group mb-2">
+									<div class="input-group-prepend">
+										<span class="input-group-text notification-text">Last</span>
+									</div>
+									<input id="notificationTextInput" type="number" min="0" step="1" class="form-control col-sm-3" />
+									<div class="input-group-prepend">
+										<span class="input-group-text notification-text">&nbsp&nbspMinutes</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<hr />
+						<!-- Background Music -->
+						<div class="row ml-1">
+							<div class="col">
+								<p class="h6 text-muted mt-2">Background Music</p>
+							</div>
+							<div class="col">
+								<select class="form-control custom-select" id="backgroundMusicOptions" style="width: 10rem">
+									<option>None</option>
+									<option>Rain</option>
+									<option>Ocean</option>
+									<option>Forest</option>
+									<option>Campfire</option>
+									<option>Windy Desert</option>
+								</select>
+							</div>
+						</div>
+
+						<hr />
+						<!-- Dark Mode -->
+						<div class="row ml-1">
+							<div class="col">
+								<p class="h6 text-muted mt-2">Dark Mode</p>
+							</div>
+							<div class="col">
+								<label class="switch mb-0">
+									<input id="darkModeToggle" type="checkbox" />
+									<span class="slider round"></span>
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="container d-flex justify-content-center my-1">
+							<button type="button" class="btn btn-primary  shadow-none" data-dismiss="modal" id="saveButton">
+								Save Changes
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- User Modal -->
+		<div
+			class="modal fade"
+			data-keyboard="true"
+			id="userSettingsModal"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="userSettingsModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title ml-3">User Settings</h3>
+						<button type="button" class="close " data-dismiss="modal" aria-label="Close">
+							<span class="modal-close-button mt-2" aria-hidden="true"><i class="fas fa-times fa-lg mt-2 mr-2"></i></span>
+						</button>
+					</div>
+
+					<!-- User Image -->
+					<div class="modal-body">
+						<center><img id="userImage" style="border-radius: 100%;" alt="" srcset=""></center><hr>
+					</div>
+
+					<!-- User Name -->
+					<div class="row ml-1">
+						<div class="col">
+							<p class="h6 text-muted mt-2">Name</p>
+						</div>
+						<div class="col">
+							<label class="switch mb-0">
+								<p style="display: block;" id="userName"></p>
+							</label>
+						</div>
+					</div><br>
+
+
+					<!-- User Email -->
+					<div class="row ml-1">
+						<div class="col">
+							<p class="h6 text-muted mt-2">Email</p>
+						</div>
+						<div class="col">
+							<label class="switch mb-0">
+								<p id="userEmail"></p>
+							</label>
+						</div>
+					</div>
+
+
+					<div class="modal-footer">
+						<div class="container d-flex justify-content-center my-1">
+							<button type="button" class="btn btn-primary  shadow-none" data-dismiss="modal" id="logoutButton">
+								Logout
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<!-- Logging Modal -->
+		<div class="modal fade" data-keyboard="true" id="loggingModal" tabindex="-1" role="dialog" aria-labelledby="loggingModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title ml-3">Log</h3>
+						<button type="button" class="close " data-dismiss="modal" aria-label="Close">
+							<span class="modal-close-button" aria-hidden="true"><i class="fas fa-times fa-lg mt-2 mr-2"></i></span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="log-modal-content">
+							<table class="table table-striped table-responsive-md" id="logDataTable">
+								<thead>
+									<tr>
+										<th scope="col">Session</th>
+										<th scope="col">Date</th>
+										<th scope="col">Start Time</th>
+										<th scope="col">End Time</th>
+										<th scope="col">Time</th>
+										<th scope="col">Description</th>
+										<th scope="col"></th>
+									</tr>
+								</thead>
+								<tbody id="locationUpdateLog"></tbody>
+							</table>
+							<div class="container d-flex justify-content-center">
+								<span id="NoDataLoggedText">No data logged yet</span>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="container d-flex justify-content-center">
+							<button type="button" class="btn btn-primary shadow-none" id="clearButton">Clear Log</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- To Do Modal -->
+		<div class="modal fade" data-keyboard="true" id="toDoModal" tabindex="-1" role="dialog" aria-labelledby="toDoModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title ml-3">Todo</h3>
+						<button type="button" class="close " data-dismiss="modal" aria-label="Close">
+							<span class="modal-close-button" aria-hidden="true"><i class="fas fa-times fa-lg mt-2 mr-2"></i></span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="container todo-main-content">
+							<!-- Task Input  -->
+							<div class="input-group mb-3">
+								<input
+									id="taskInput"
+									type="text"
+									class="form-control"
+									placeholder="Task Description"
+									aria-label="Task name"
+									aria-describedby="addTaskButton"
+								/>
+								<div class="input-group-append">
+									<button class="btn btn-outline-secondary " id="addTaskButton" onclick="submitTask()" type="button">
+										Add
+									</button>
+								</div>
+							</div>
+							<div class="container d-flex justify-content-center">
+								<span id="NoTaskTodayText">No tasks for today</span>
+							</div>
+							<!-- Task items -->
+							<ul class="list-group" id="listOfTasks"></ul>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="container d-flex justify-content-center">
+							<button type="button" class="btn btn-primary  shadow-none" id="clearTasksButton">Clear Tasks</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js"></script>
+		<script src="js/app.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+			integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+			integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+			crossorigin="anonymous"
+		></script>
 
     <button id="logout">Logout</button>
 
@@ -81,20 +559,20 @@
         
       </script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js"></script>
+    <script src="js/app.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"
+    ></script>
+    <script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"
+    ></script>
 
+      <script src="index.js"></script>
 
-    <script>
-        let progressCircle = document.querySelector(".progress");
-        let radius = progressCircle.r.baseVal.value;
-        let circumference = 2 * Math.PI * radius;
-        progressCircle.style.strokeDasharray = circumference;
-
-        setProgress(20);
-
-        // Setting progress in percentage
-        function setProgress(percent) {
-            progressCircle.style.strokeDashoffset = circumference - ( ( percent / 100 ) * circumference );
-        }
-    </script>
 </body>
 </html>
