@@ -8,14 +8,13 @@ body {
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	font-family: "Arvo", serif;
+	font-family: 'Open Sans', sans-serif;
 }
 
 .alert {
 	display: none;
 	text-align: center;
 }
-
 
 /* Main Content */
 #mainPage {
@@ -29,6 +28,15 @@ body {
 	font-size: 40px;
 }
 
+/* Font Styles */
+.serif-font{
+	font-family: 'Uchen', serif;
+}
+
+.serif-font:hover{
+	background-color: rgb(137, 217, 244);
+	font-weight: 500;
+}
 
 /* Brand Name */
 #brand {
@@ -37,10 +45,10 @@ body {
 }
 
 #brandName {
-	font-size: 30px;
+	font-size: 60px;
 }
 
-#pomodoros,
+#focus,
 #shortBreak,
 #longBreak {
 	text-align: center;
@@ -183,7 +191,7 @@ body {
 	margin-right: 100px;
 }
 
-#NoDataLoggedText,
+#NoActivityText,
 #NoTaskTodayText {
 	font-size: 30px;
 	padding-top: 30px;

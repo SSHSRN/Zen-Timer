@@ -31,7 +31,11 @@
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="homePage.css">
 		<link rel="shortcut icon" href="assets/logo.svg" type="image/x-icon">
-		<link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap" rel="stylesheet"/>
+
+		<!-- Google fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Permanent+Marker&family=Uchen&display=swap" rel="stylesheet">
 
 	</head>
 
@@ -67,7 +71,7 @@
                             </clipPath>
                             </defs>
                         </svg>
-						<span id="brandName">ZenTimer</span>
+						<span id="brandName" style="font-family: 'Permanent Marker', cursive;">ZenTimer</span>
 					</nav>
 				</div>
 				<!-- NAVBAR -->
@@ -80,8 +84,8 @@
 
 								<!-- Focus -->
 								<div class="col-lg-4 px-0">
-									<a class="nav-link active pt-2 nav-underline" 
-										id="pomodoros" 
+									<a class="nav-link active pt-2 nav-underline serif-font" 
+										id="focus" 
 										data-toggle="tab" 
 										role="tab" 
 										aria-selected="false" 
@@ -92,7 +96,7 @@
 
 								<!-- Short Break -->
 								<div class="col-lg-4 px-0">
-									<a class="nav-link pt-2 nav-underline" 
+									<a class="nav-link pt-2 nav-underline serif-font" 
 										id="shortBreak" 
 										data-toggle="tab" 
 										role="tab" 
@@ -104,7 +108,7 @@
 
 								<!-- Long Break -->
 								<div class="col-lg-4 px-0">
-									<a class="nav-link pt-2 nav-underline" 
+									<a class="nav-link pt-2 nav-underline serif-font" 
 										id="longBreak" 
 										data-toggle="tab" 
 										role="tab" 
@@ -178,9 +182,9 @@
 										>
 										<svg width="25" height="25" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
 											<path d="M256 42.6667C140.352 42.6667 42.6666 140.352 42.6666 256C42.6666 371.648 140.352 469.333 256 469.333C371.648 469.333 469.333 371.648 469.333 256C469.333 140.352 371.648 42.6667 256 42.6667ZM256 149.333C292.843 149.333 320 176.469 320 213.333C320 250.197 292.843 277.333 256 277.333C219.179 277.333 192 250.197 192 213.333C192 176.469 219.179 149.333 256 149.333ZM147.072 357.803C166.208 329.643 198.123 310.869 234.667 310.869H277.333C313.899 310.869 345.792 329.643 364.928 357.803C337.664 386.987 298.987 405.333 256 405.333C213.013 405.333 174.336 386.987 147.072 357.803Z" fill="#007BFF"/>
-										</svg>										
+										</svg>
 									</a>
-								</li>							
+								</li>
 							</ul>
 						</div>
 					</div>
@@ -408,7 +412,6 @@
 							</div>
 						</div>
 
-
 						<!-- User Email -->
 						<div class="row ml-1">
 							<div class="col">
@@ -421,7 +424,6 @@
 							</div>
 						</div>
 
-
 						<div class="modal-footer">
 							<div class="container d-flex justify-content-center my-1">
 								<button type="button" class="btn btn-primary  shadow-none" data-dismiss="modal" id="logoutButton">
@@ -433,10 +435,12 @@
 				</div>
 			</div>
 
-
-
 			<!-- Analytics Modal -->
-			<div class="modal fade" data-keyboard="true" id="analyticsModal" tabindex="-1" role="dialog" aria-labelledby="analyticsModalLabel" aria-hidden="true">
+			<div 
+				class="modal fade" 
+				data-keyboard="true" 
+				id="analyticsModal" 
+			>
 				<div class="modal-dialog modal-xl">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -462,7 +466,7 @@
 									<tbody id="locationUpdateLog"></tbody>
 								</table>
 								<div class="container d-flex justify-content-center">
-									<span id="NoDataLoggedText">No activity yet</span>
+									<span id="NoActivityText">No activity yet</span>
 								</div>
 							</div>
 						</div>
@@ -474,8 +478,13 @@
 					</div>
 				</div>
 			</div>
+
 			<!-- To Do Modal -->
-			<div class="modal fade" data-keyboard="true" id="toDoModal" tabindex="-1" role="dialog" aria-labelledby="toDoModalLabel" aria-hidden="true">
+			<div 
+				class="modal fade" 
+				data-keyboard="true" 
+				id="toDoModal" 
+			>
 				<div class="modal-dialog modal-lg">
 					<div class="modal-content">
 						<div class="modal-header">

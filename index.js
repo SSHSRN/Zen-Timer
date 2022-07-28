@@ -1,18 +1,28 @@
 //Tabs
-var pomodoros = document.getElementById("pomodoros");
+var focus = document.getElementById("focus");
 var shortBreak = document.getElementById("shortBreak");
 var longBreak = document.getElementById("longBreak");
 var settings = document.getElementById("settings");
+
 //Buttons
+
+// Start Timer button
 var startButton = document.getElementById("startButton");
+// Reset Timer button
 var resetButton = document.getElementById("resetButton");
+// Stop(Pause) Timer button
 var stopButton = document.getElementById("stopButton");
+// Save Changes(Settings-menu) button
 var saveButton = document.getElementById("saveButton");
+// Clear Activity log(Analytics-menu) button
 var clearButton = document.getElementById("clearButton");
+// Clear Tasks(To-Do-list) button
 var clearTasksButton = document.getElementById("clearTasksButton");
+
 //Time left displayed
 var timeLeftDisplay = document.getElementById("timeLeft");
-//Inputs
+
+//Inputs [Settings Menu]
 var pomodoroInput = document.getElementById("pomodoroInput");
 var shortBreakInput = document.getElementById("shortBreakInput");
 var longBreakInput = document.getElementById("longBreakInput");
@@ -39,39 +49,29 @@ var allPossibleModes = {
 	pomodoro: {
 		input: pomodoroInput,
 		defaultTime: 25,
-		navButton: pomodoros,
+		navButton: focus,
 		localStorage: localStorage.currentPomodoroValue,
-		alertMessage: "<strong>Time is up!</strong> Lets take a break",
+		alertMessage: "<strong>Time is up!</strong> Take a break",
 		titleDisplayText: "Time to Work!",
-		progressColor: "#dc3545",
-		sound: new Howl({
-			src: ["assets/sounds/alert-work.mp3"],
-		}),
+		progressColor: "red",
 	},
 	"long break": {
 		input: longBreakInput,
 		defaultTime: 20,
 		navButton: longBreak,
 		localStorage: localStorage.currentLongBreakValue,
-		alertMessage: "<strong>Long break over!</strong> Lets get back to work",
+		alertMessage: "<strong>Long break over!</strong> Get back to work",
 		titleDisplayText: "Time for a Break",
-		progressColor: "#007bff",
-		sound: new Howl({
-			src: ["assets/sounds/alert-long-break.mp3"],
-			
-		}),
+		progressColor: "green",
 	},
 	"short break": {
 		input: shortBreakInput,
 		defaultTime: 5,
 		navButton: shortBreak,
 		localStorage: localStorage.currentShortBreakValue,
-		alertMessage: "<strong>Short break over!</strong> Lets get back to work",
+		alertMessage: "<strong>Short break over!</strong> Get back to work",
 		titleDisplayText: "Time for a Break",
-		progressColor: "#28a745",
-		sound: new Howl({
-			src: ["assets/sounds/alert-short-break.mp3"],
-		}),
+		progressColor: "blue",
 	},
 };
 
@@ -124,13 +124,22 @@ init();
 
 function init() {
 	currentTab = "pomodoro";
+	// currentTab => current mode(focus, short break, long break)
+
+	// To set active state to the particular tab(focus, short break, long break)
 	makePillsActive(currentTab);
+	// Display remaining time
 	contentDisplay();
+	// Remove active and clicked state from all the buttons
 	buttonsDefaultState();
+	// Check the values for already selected settings
 	displayTickSoundValue();
+	// Show the time intervals for different sessions(focus, short break, long break) in Settings-menu
 	displayTimeInputValues();
+	// Display the time before completion of a lap, to alert the user(Settings-menu)
 	displayNotificationValue();
-	displayBackGroundMusic();
+	// To show the last music the user was listening toString
+	// displayBackGroundMusic();
 	displayDarkMode();
 	displayLog();
 	displayTodoList();
@@ -166,13 +175,13 @@ function displayNotificationValue() {
 	}
 }
 
-function displayBackGroundMusic() {
-	if (localStorage.backgroundMusicOptionsValue) {
-		backgroundMusicOptions.value = localStorage.backgroundMusicOptionsValue;
-	} else {
-		backgroundMusicOptions.value = "None";
-	}
-}
+// function displayBackGroundMusic() {
+// 	if (localStorage.backgroundMusicOptionsValue) {
+// 		backgroundMusicOptions.value = localStorage.backgroundMusicOptionsValue;
+// 	} else {
+// 		backgroundMusicOptions.value = "None";
+// 	}
+// }
 
 function displayDarkMode() {
 	if (localStorage.darkModeToggleValue === "true") {
@@ -186,10 +195,10 @@ function displayDarkMode() {
 function displayLog() {
 	if (localStorage.logContents !== undefined) {
 		if (localStorage.logContents.indexOf("tr") === -1) {
-			showNoDataLoggedText();
+			showNoActivityText();
 		} else {
 			locationUpdateLog.innerHTML = localStorage.logContents;
-			removeNoDataLoggedText();
+			removeNoActivityText();
 		}
 	}
 }
@@ -227,7 +236,7 @@ function displayAutoStartBreak() {
 	}
 }
 
-pomodoros.addEventListener("click", function () {
+focus.addEventListener("click", function () {
 	currentTab = "pomodoro";
 	makePillsActive(currentTab);
 	contentDisplay();
@@ -280,7 +289,7 @@ function countDown() {
 			showAlertMessage(currentTab);
 			document.title = secondsToMinutes(timeLeft) + " - " + titleDisplayText;
 			clearInterval(updateSeconds);
-			allPossibleModes[currentTab].sound.play();
+			// allPossibleModes[currentTab].sound.play();
 			stopBackGroundMusic();
 			currentEndTime = getTime();
 			addDataToLog();
@@ -335,34 +344,36 @@ stopButton.addEventListener("click", function () {
 
 function makePillsActive(session) {
 	allPossibleModes[session].navButton.classList.add("active");
-	allPossibleModes[session].navButton.style.fontSize = "1.15rem";
+	allPossibleModes[session].navButton.style.fontSize = "20px";
+	// Remove the active class for other sessions.
 	allSessions = Object.keys(allPossibleModes);
+	// console.log(allSessions); => ['pomodoro', 'long break', 'short break']
 	allSessions.forEach(function (sessionType) {
 		if (sessionType !== session) {
 			allPossibleModes[sessionType].navButton.classList.remove("active");
-			allPossibleModes[sessionType].navButton.style.fontSize = "1.1rem";
+			allPossibleModes[sessionType].navButton.style.fontSize = "17px";
 		}
 	});
 }
 
 function makeTimerButtonActive(buttonClicked) {
 	allTimerButtons = [startButton, stopButton, resetButton];
-	buttonClicked.style.fontSize = "1.28rem";
 	buttonClicked.classList.add("active");
 	buttonClicked.classList.add("buttonClicked");
 	allTimerButtons.forEach(function (button) {
 		if (button !== buttonClicked) {
-			button.style.fontSize = "1.3rem";
 			button.classList.remove("active");
 			button.classList.remove("buttonClicked");
 		}
 	});
 }
-// Content Display
+// Content Display(Display remaining time)
 function contentDisplay() {
 	if (allPossibleModes[currentTab].localStorage) {
+		// If timer is running
 		timeLeft = minutesToSeconds(allPossibleModes[currentTab].localStorage);
 	} else {
+		// If timer is not running
 		timeLeft = minutesToSeconds(allPossibleModes[currentTab].defaultTime);
 	}
 	timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
@@ -454,6 +465,8 @@ function progressDisplay() {
 }
 
 // Minutes and Seconds converter
+
+// Convert seconds to minutes
 function secondsToMinutes(s) {
 	var minutes = Math.floor(s / 60);
 	var seconds = s % 60;
@@ -466,6 +479,7 @@ function secondsToMinutes(s) {
 	return minutes + ":" + seconds.toString();
 }
 
+// Convert minutes to seconds
 function minutesToSeconds(m) {
 	var seconds = m * 60;
 	return seconds;
@@ -600,13 +614,13 @@ function addDataToLog() {
 		'<td><button type="button" class="close" onclick = "deleteLog(this)" aria-label="Close"><i class="fas fa-trash-alt"></i></button></td>';
 	locationUpdateLog.appendChild(row);
 	storeLogItems();
-	removeNoDataLoggedText();
+	removeNoActivityText();
 }
 // Clear log
 clearButton.addEventListener("click", function () {
 	locationUpdateLog.innerHTML = "";
 	storeLogItems();
-	showNoDataLoggedText();
+	showNoActivityText();
 });
 // Delete log
 function deleteLog(item) {
@@ -616,7 +630,7 @@ function deleteLog(item) {
 		item.parentNode.parentNode.remove();
 		storeLogItems();
 		if (logIsEmpty()) {
-			showNoDataLoggedText();
+			showNoActivityText();
 		}
 	});
 }
@@ -630,12 +644,12 @@ function storeLogDescription(item) {
 	storeLogItems();
 }
 // No logging data text
-function showNoDataLoggedText() {
-	document.getElementById("NoDataLoggedText").style.display = "block";
+function showNoActivityText() {
+	document.getElementById("NoActivityText").style.display = "block";
 }
 
-function removeNoDataLoggedText() {
-	document.getElementById("NoDataLoggedText").style.display = "none";
+function removeNoActivityText() {
+	document.getElementById("NoActivityText").style.display = "none";
 }
 
 function logIsEmpty() {
@@ -763,7 +777,7 @@ function startNextRound() {
 			autoStartTimer();
 		}
 	} else if (currentTab === "short break") {
-		//play pomodoros
+		//play focus
 		currentTab = "pomodoro";
 		makePillsActive(currentTab);
 		contentDisplay();
@@ -774,7 +788,7 @@ function startNextRound() {
 			autoStartTimer();
 		}
 	} else if (currentTab === "long break") {
-		//play pomodoros
+		//play focus
 		currentTab = "pomodoro";
 		makePillsActive(currentTab);
 		contentDisplay();
@@ -802,9 +816,6 @@ function buttonsDefaultState() {
 	startButton.classList.remove("active");
 	stopButton.classList.remove("active");
 	resetButton.classList.remove("active");
-	startButton.style.fontSize = "1.3rem";
-	stopButton.style.fontSize = "1.3rem";
-	resetButton.style.fontSize = "1.3rem";
 	startButton.classList.remove("buttonClicked");
 	stopButton.classList.remove("buttonClicked");
 	resetButton.classList.remove("buttonClicked");
