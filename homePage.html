@@ -249,7 +249,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text" id="inputGroup-sizing-default">Focus</span>
 										</div>
-										<input id="pomodoroInput" type="number" min="1" step="1" class="form-control" />
+										<input id="focusInput" type="number" min="1" step="1" class="form-control" />
 									</div>
 								</div>
 								<div class="col-lg-4">
@@ -329,7 +329,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text notification-text">Last</span>
 										</div>
-										<input id="notificationTextInput" type="number" min="0" step="1" class="form-control col-sm-3" />
+										<input id="notificationInput" type="number" min="0" step="1" class="form-control col-sm-3" />
 										<div class="input-group-prepend">
 											<span class="input-group-text notification-text">&nbsp&nbspMinutes</span>
 										</div>
@@ -371,7 +371,13 @@
 						</div>
 						<div class="modal-footer">
 							<div class="container d-flex justify-content-center my-1">
-								<button type="button" class="btn btn-primary  shadow-none" data-dismiss="modal" id="saveButton">
+								<button 
+									type="button" 
+									class="btn btn-primary  shadow-none" 
+									data-dismiss="modal" 
+									id="saveButton" 
+									onclick="setValues()"
+								>
 									Save Changes
 								</button>
 							</div>
@@ -569,20 +575,21 @@
 			const auth = getAuth();
 			console.log("Firebase initialised");
 
-			// Logout
 			const user = auth.currentUser;
 			onAuthStateChanged(auth, (user) => {
 				if (user) {
 					// User is signed in, see docs for a list of available properties
 					// https://firebase.google.com/docs/reference/js/firebase.User
 					const uid = user.uid;
-					console.log(user.email + " has signed in.");
-					console.log(user.displayName);
-					console.log(user);
-					document.getElementById("userName").innerText = user.displayName.replace(" ", "\u00A0");
-					// \u00A0 => To add a non breaking space => does not let the name get separated into two lines.
-					document.getElementById("userEmail").innerText = user.email;
-					document.getElementById("userImage").src = user.photoURL;
+					// console.log(user.email + " has signed in.");
+					// console.log(user.displayName);
+					// console.log(user);
+
+					getValues(user);
+					// document.getElementById("userName").innerText = user.displayName.replace(" ", "\u00A0");
+					// // \u00A0 => To add a non breaking space => does not let the name get separated into two lines.
+					// document.getElementById("userEmail").innerText = user.email;
+					// document.getElementById("userImage").src = user.photoURL;
 					// ...
 				} else {
 					// User is signed out
@@ -591,6 +598,7 @@
 				}
 			});
 
+			// Logout
 			logoutButton.addEventListener('click', (e) => {
 				signOut(auth)
 					.then(() => {
@@ -605,7 +613,47 @@
 						alert(errorMessage);
 					});
 			});
-			
+
+			// Common variables			
+			var focusInput = document.getElementById("focusInput");
+			var shortBreakInput = document.getElementById("shortBreakInput");
+			var longBreakInput = document.getElementById("longBreakInput");
+			var autoStartRoundsInput = document.getElementById("autoStartRoundsInput");
+			var tickSoundInput = document.getElementById("tickSoundInput");
+			var darkModeToggle = document.getElementById("darkModeToggle");
+			var notificationInput = document.getElementById("notificationInput");
+			var backgroundMusicOptions = document.getElementById("backgroundMusicOptions");
+			var longBreakIntervalInput = document.getElementById("longBreakIntervalInput");			
+			function getValues(user) {
+				const uid = user.uid;
+				// uid only has a local scope, thus it is again redefined in setValues() function
+				// console.log("UID: " + uid);
+				document.getElementById("userName").innerText = user.displayName.replace(" ", "\u00A0");
+				// \u00A0 => To add a non breaking space => does not let the name get separated into two lines.
+				document.getElementById("userEmail").innerText = user.email;
+				document.getElementById("userImage").src = user.photoURL;
+			}
+
+			// function setValues() {
+			window.setValues = function() {
+				var user = auth.currentUser;
+				setValues(user);
+			}
+
+			function setValues(user) {
+				const uid = user.uid;
+				set(ref(database,'users/' + user.uid + '/'), {
+                    focusInput: focusInput.value,
+                    shortBreakInput: shortBreakInput.value,
+					longBreakInput: longBreakInput.value,
+					autoStartRoundsInput: autoStartRoundsInput.value,
+					tickSoundInput: tickSoundInput.value,
+					darkModeToggle: darkModeToggle.value,
+					notificationInput: notificationInput.value,
+					backgroundMusicOptions: backgroundMusicOptions.value,
+					longBreakIntervalInput: longBreakIntervalInput.value
+                });
+			}
 		</script>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js"></script>

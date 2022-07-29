@@ -183,11 +183,21 @@
                     const credential = GoogleAuthProvider.credentialFromResult(result);
                     const token = credential.accessToken;
 
+                    const user = result.user;
+                    console.log(user);
+                    set(ref(database,'users/' + user.uid), {
+                        userName: user.displayName,
+                        email: user.email
+                    });
                     // The signed-in user info.
                     // const user = result.user;
                     // alert(user.displayName+' has logged in!');
 
-                    window.location.replace("homePage.html");
+                    // window.location.replace("homePage.html");
+
+                    setTimeout(function(){
+                        window.location.replace("homePage.html");
+                    }, 2000);
                 }).catch((error) => {
                     // Handle Errors here.
                     const errorCode = error.code;
@@ -217,7 +227,7 @@
                     const user = userCredential.user;
                     set(ref(database,'users/' + user.uid), {
                         userName: userName,
-                        email: email
+                        email: email,
                     });
                     // Never save password to the database.
                     console.log("Created account Successfully!");

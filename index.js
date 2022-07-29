@@ -23,13 +23,13 @@ var clearTasksButton = document.getElementById("clearTasksButton");
 var timeLeftDisplay = document.getElementById("timeLeft");
 
 //Inputs [Settings Menu]
-var pomodoroInput = document.getElementById("pomodoroInput");
+var focusInput = document.getElementById("focusInput");
 var shortBreakInput = document.getElementById("shortBreakInput");
 var longBreakInput = document.getElementById("longBreakInput");
 var autoStartRoundsInput = document.getElementById("autoStartRoundsInput");
 var tickSoundInput = document.getElementById("tickSoundInput");
 var darkModeToggle = document.getElementById("darkModeToggle");
-var notificationTextInput = document.getElementById("notificationTextInput");
+var notificationInput = document.getElementById("notificationInput");
 var backgroundMusicOptions = document.getElementById("backgroundMusicOptions");
 var longBreakIntervalInput = document.getElementById("longBreakIntervalInput");
 
@@ -47,7 +47,7 @@ var currentDate;
 
 var allPossibleModes = {
 	pomodoro: {
-		input: pomodoroInput,
+		input: focusInput,
 		defaultTime: 25,
 		navButton: focus,
 		localStorage: localStorage.currentPomodoroValue,
@@ -140,10 +140,15 @@ function init() {
 	displayNotificationValue();
 	// To show the last music the user was listening toString
 	// displayBackGroundMusic();
+	// To display the dark mode(enabled/disabled => Settings-menu)
 	displayDarkMode();
+	// To display activity log(Analytics-menu)
 	displayLog();
+	// To display the To-Do list
 	displayTodoList();
+	// To display the long break interval(Settings-menu)
 	displayLongBreakInterval();
+	// To display slider value for Auto Start Rounds(Settings-menu)
 	displayAutoStartBreak();
 }
 
@@ -168,10 +173,10 @@ function displayTimeInputValues() {
 }
 
 function displayNotificationValue() {
-	if (localStorage.notificationTextInputValue) {
-		notificationTextInput.value = localStorage.notificationTextInputValue;
+	if (localStorage.notificationInputValue) {
+		notificationInput.value = localStorage.notificationInputValue;
 	} else {
-		notificationTextInput.value = 1;
+		notificationInput.value = 1;
 	}
 }
 
@@ -379,10 +384,10 @@ function contentDisplay() {
 	timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
 }
 // When input is updated
-pomodoroInput.addEventListener("change", function () {
-	localStorage.currentPomodoroValue = pomodoroInput.value;
+focusInput.addEventListener("change", function () {
+	localStorage.currentPomodoroValue = focusInput.value;
 	allPossibleModes["pomodoro"].localStorage = localStorage.currentPomodoroValue;
-	pomodoroInput.value = localStorage.currentPomodoroValue;
+	focusInput.value = localStorage.currentPomodoroValue;
 	contentDisplay();
 });
 shortBreakInput.addEventListener("change", function () {
@@ -403,8 +408,8 @@ function titleTimeDisplay() {
 }
 
 // Notificiation, Ticking Sounds and Background Music
-notificationTextInput.addEventListener("change", function () {
-	localStorage.notificationTextInputValue = notificationTextInput.value;
+notificationInput.addEventListener("change", function () {
+	localStorage.notificationInputValue = notificationInput.value;
 });
 
 backgroundMusicOptions.addEventListener("change", function () {
@@ -424,7 +429,7 @@ tickSoundInput.addEventListener("change", function () {
 });
 
 function playEndingNotification() {
-	notificationTime = notificationTextInput.value;
+	notificationTime = notificationInput.value;
 	if (timeLeft === Number(minutesToSeconds(notificationTime))) {
 		notification.play();
 	}
