@@ -642,17 +642,20 @@
 
 			function setValues(user) {
 				const uid = user.uid;
-				set(ref(database,'users/' + user.uid + '/'), {
-                    focusInput: focusInput.value,
-                    shortBreakInput: shortBreakInput.value,
-					longBreakInput: longBreakInput.value,
-					autoStartRoundsInput: autoStartRoundsInput.value,
-					tickSoundInput: tickSoundInput.value,
-					darkModeToggle: darkModeToggle.value,
-					notificationInput: notificationInput.value,
-					backgroundMusicOptions: backgroundMusicOptions.value,
-					longBreakIntervalInput: longBreakIntervalInput.value
-                });
+				console.log(uid);
+				const usersRef = ref.child('users');
+				console.log(usersRef);
+				// set(ref(database,'users/' + user.uid + '/'), {
+                //     focusInput: focusInput.value,
+                //     shortBreakInput: shortBreakInput.value,
+				// 	longBreakInput: longBreakInput.value,
+				// 	autoStartRoundsInput: autoStartRoundsInput.value,
+				// 	tickSoundInput: tickSoundInput.value,
+				// 	darkModeToggle: darkModeToggle.value,
+				// 	notificationInput: notificationInput.value,
+				// 	backgroundMusicOptions: backgroundMusicOptions.value,
+				// 	longBreakIntervalInput: longBreakIntervalInput.value
+                // });
 			}
 		</script>
 
