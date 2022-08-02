@@ -37,6 +37,8 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Permanent+Marker&family=Uchen&display=swap" rel="stylesheet">
 
+		<!-- Remarkable js => Render Md -->
+		<script src="https://cdn.jsdelivr.net/remarkable/1.7.1/remarkable.min.js"></script>
 	</head>
 
 	<body style="height: 100%;">
@@ -125,7 +127,7 @@
 								<!-- To Do -->
 								<li class="nav-item">
 									<a 
-										class="nav-link px-2" 
+										class="nav-link pl-2 pr-0 ml-2" 
 										data-toggle="modal" 
 										data-target="#toDoModal" 
 										href="#"
@@ -172,10 +174,25 @@
 									</a>
 								</li>
 
+								<!-- Notes -->
+								<li class="nav-item">
+									<a
+										class="nav-link pl-2 pr-0 ml-2"
+										data-toggle="modal"
+										data-target="#notesModal"
+										href="#"
+										>
+										<svg width="25" height="25" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M128 128C128 122.342 130.248 116.916 134.248 112.915C138.249 108.914 143.675 106.667 149.333 106.667H362.667C368.325 106.667 373.751 108.914 377.752 112.915C381.752 116.916 384 122.342 384 128C384 133.658 381.752 139.084 377.752 143.085C373.751 147.086 368.325 149.333 362.667 149.333H149.333C143.675 149.333 138.249 147.086 134.248 143.085C130.248 139.084 128 133.658 128 128ZM128 213.333C128 207.675 130.248 202.249 134.248 198.248C138.249 194.248 143.675 192 149.333 192H362.667C368.325 192 373.751 194.248 377.752 198.248C381.752 202.249 384 207.675 384 213.333C384 218.991 381.752 224.418 377.752 228.418C373.751 232.419 368.325 234.667 362.667 234.667H149.333C143.675 234.667 138.249 232.419 134.248 228.418C130.248 224.418 128 218.991 128 213.333ZM149.333 277.333C143.675 277.333 138.249 279.581 134.248 283.582C130.248 287.583 128 293.009 128 298.667C128 304.325 130.248 309.751 134.248 313.752C138.249 317.752 143.675 320 149.333 320H362.667C368.325 320 373.751 317.752 377.752 313.752C381.752 309.751 384 304.325 384 298.667C384 293.009 381.752 287.583 377.752 283.582C373.751 279.581 368.325 277.333 362.667 277.333H149.333ZM128 384C128 378.342 130.248 372.916 134.248 368.915C138.249 364.914 143.675 362.667 149.333 362.667H234.667C240.325 362.667 245.751 364.914 249.752 368.915C253.752 372.916 256 378.342 256 384C256 389.658 253.752 395.084 249.752 399.085C245.751 403.086 240.325 405.333 234.667 405.333H149.333C143.675 405.333 138.249 403.086 134.248 399.085C130.248 395.084 128 389.658 128 384Z" fill="#007BFF"/>
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M42.6667 85.3334C42.6667 68.3595 49.4096 52.0809 61.4119 40.0785C73.4142 28.0762 89.6929 21.3334 106.667 21.3334H405.333C422.307 21.3334 438.586 28.0762 450.588 40.0785C462.591 52.0809 469.333 68.3595 469.333 85.3334V426.667C469.333 443.641 462.591 459.919 450.588 471.922C438.586 483.924 422.307 490.667 405.333 490.667H106.667C89.6929 490.667 73.4142 483.924 61.4119 471.922C49.4096 459.919 42.6667 443.641 42.6667 426.667V85.3334ZM106.667 64H405.333C410.991 64 416.418 66.2477 420.418 70.2484C424.419 74.2492 426.667 79.6754 426.667 85.3334V426.667C426.667 432.325 424.419 437.751 420.418 441.752C416.418 445.752 410.991 448 405.333 448H106.667C101.009 448 95.5826 445.752 91.5818 441.752C87.581 437.751 85.3334 432.325 85.3334 426.667V85.3334C85.3334 79.6754 87.581 74.2492 91.5818 70.2484C95.5826 66.2477 101.009 64 106.667 64Z" fill="#007BFF"/>
+										</svg>	
+									</a>
+								</li>
+
 								<!-- User Settings -->
 								<li class="nav-item">
 									<a
-										class="nav-link pl-2 pr-0 ml-2 d-none d-md-block "
+										class="nav-link pl-2 pr-0 ml-2"
 										data-toggle="modal"
 										data-target="#userSettingsModal"
 										href="#"
@@ -485,6 +502,29 @@
 				</div>
 			</div>
 
+			<!-- Notes Modal -->
+			<div 
+				class="modal fade" 
+				data-keyboard="true" 
+				id="notesModal" 
+			>
+				<div class="modal-dialog modal-xl">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title ml-3">Notes</h3>
+							<button type="button" class="close " data-dismiss="modal" aria-label="Close">
+								<span class="modal-close-button" aria-hidden="true"><i class="fas fa-times fa-lg mt-2 mr-2"></i></span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div id="notes_text" class="ml-3" contenteditable="true" style="height: 500px;">
+							</div>
+							<center><button class="btn btn-primary shadow-none" onclick="md2html()">Render md</button></center>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<!-- To Do Modal -->
 			<div 
 				class="modal fade" 
@@ -526,26 +566,12 @@
 						</div>
 						<div class="modal-footer">
 							<div class="container d-flex justify-content-center">
-								<button type="button" class="btn btn-primary  shadow-none" id="clearTasksButton">Clear Tasks</button>
+								<button type="button" class="btn btn-primary shadow-none" id="clearTasksButton">Clear Tasks</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js"></script>
-			<script src="js/app.js"></script>
-			<script
-				src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-				integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-				crossorigin="anonymous"
-			></script>
-			<script
-				src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-				integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-				crossorigin="anonymous"
-			></script>
-
 
 		<script type="module">
 			// Import the functions you need from the SDKs you need
@@ -656,20 +682,36 @@
 			}
 		</script>
 
+		<!-- Howler js => For audio -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js"></script>
-		<script src="js/app.js"></script>
+
+		<!-- Popper js -->
 		<script
 			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
 			integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
 			crossorigin="anonymous"
 		></script>
+
+		<!-- Bootstrap js -->
 		<script
 			src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 			integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 			crossorigin="anonymous"
 		></script>
 
+		<!-- Project js file -->
 		<script src="index.js"></script>
 
+		<!-- MarkDown to HTML render js -->
+		<script>
+			function md2html() {
+				var md = new Remarkable();
+				// console.log(md);
+				md_notes_div = document.getElementById("notes_text");
+				md_notes_text = md_notes_div.innerText;
+				// console.log(md_notes_text);
+				md_notes_div.innerHTML = md.render(md_notes_text);
+			}
+		</script>
 	</body>
 </html>
