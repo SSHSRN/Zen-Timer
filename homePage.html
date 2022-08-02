@@ -413,7 +413,7 @@
 							</div>
 							<div class="col">
 								<label class="switch mb-0">
-									<p style="display: block;" id="userName"></p>
+									<p style="display: block;" id="userName">Anonymous</p>
 								</label>
 							</div>
 						</div>
@@ -628,7 +628,9 @@
 				const uid = user.uid;
 				// uid only has a local scope, thus it is again redefined in setValues() function
 				// console.log("UID: " + uid);
-				document.getElementById("userName").innerText = user.displayName.replace(" ", "\u00A0");
+				if(user.displayName != null){
+					document.getElementById("userName").innerText = user.displayName.replace(" ", "\u00A0");
+				}
 				// \u00A0 => To add a non breaking space => does not let the name get separated into two lines.
 				document.getElementById("userEmail").innerText = user.email;
 				document.getElementById("userImage").src = user.photoURL;
@@ -643,19 +645,14 @@
 			function setValues(user) {
 				const uid = user.uid;
 				console.log(uid);
-				const usersRef = ref.child('users');
-				console.log(usersRef);
-				// set(ref(database,'users/' + user.uid + '/'), {
-                //     focusInput: focusInput.value,
-                //     shortBreakInput: shortBreakInput.value,
-				// 	longBreakInput: longBreakInput.value,
-				// 	autoStartRoundsInput: autoStartRoundsInput.value,
-				// 	tickSoundInput: tickSoundInput.value,
-				// 	darkModeToggle: darkModeToggle.value,
-				// 	notificationInput: notificationInput.value,
-				// 	backgroundMusicOptions: backgroundMusicOptions.value,
-				// 	longBreakIntervalInput: longBreakIntervalInput.value
-                // });
+				update(ref(database,'users/' + user.uid + '/'), {
+                    focusInput: focusInput.value,
+                    shortBreakInput: shortBreakInput.value,
+					longBreakInput: longBreakInput.value,
+					autoStartRoundsInput: autoStartRoundsInput.value,
+					tickSoundInput: tickSoundInput.value,
+                });
+				console.log("done!!!");
 			}
 		</script>
 
