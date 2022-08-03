@@ -44,6 +44,7 @@ var timerButtonClicked;
 var currentStartTime;
 var currentEndTime;
 var currentDate;
+var operationRunning = false;
 
 var allPossibleModes = {
 	pomodoro: {
@@ -275,6 +276,7 @@ longBreak.addEventListener("click", function () {
 var updateSeconds = null;
 
 function countDown() {
+	operationRunning = true;
 	playBackGroundMusic();
 	currentStartTime = getTime();
 	currentDate = getDate();
@@ -288,6 +290,7 @@ function countDown() {
 			playTickSound();
 			playEndingNotification();
 		} else {
+			operationRunning = false;
 			timeLeft = 0;
 			timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
 			titleTimeDisplay();
@@ -856,3 +859,11 @@ $('input[type="number"]').attr(
 	"onkeypress",
 	"return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 46 && event.charCode <= 57"
 );
+
+
+// Function before reload
+window.onbeforeunload = function(){
+	if(operationRunning){
+		return "Changes may not be saved"
+	}
+  };
