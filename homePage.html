@@ -20,13 +20,18 @@
 			concentration techniques, pomodoro resources, to-do list, notes, time management app,
 			ZenTimer, ToDo, Zen Timer, Efficiency meter"
 			/>
-		<!-- name="keywords" content="____" => Specifies a comma-separated list of keywords - relevant to the page (Informs search engines what the page is about). -->
+		<!-- name="keywords" content="____" => Specifies a comma-separated list of keywords - 
+			relevant to the page (Informs search engines what the page is about). -->
+		<!-- Used for SEO (Search Engine Optimisation...) -->
 		
 		<meta name="author" content="Srihari S">
 		<!-- name="author" content="___" => Specifies the name of the author of the document. -->
 
 		<!-- CSS -->
+		<!-- BootStrap CSS => For styling -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+
+		<!-- FontAwesome CSS => For icons -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="homePage.css">
@@ -37,11 +42,17 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Permanent+Marker&family=Uchen&display=swap" rel="stylesheet">
 
+		<!-- JS -->
 		<!-- Remarkable js => Render Md to HTML -->
 		<script src="https://cdn.jsdelivr.net/remarkable/1.7.1/remarkable.min.js"></script>
 
-		<!-- Convert HTML to Md -->
+		<!-- TurnDown js => Convert HTML to Md -->
+		<!-- Not used (Not so effective) -->
 		<script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+
+		<!-- Convert HTML to pdf -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 	</head>
 
 	<body style="height: 100%;">
@@ -516,6 +527,7 @@
 							<div id="md_text_div" class="ml-3" contenteditable="true" style="height: 500px;"></div>
 							<div id="html_render_div" class="ml-3" contenteditable="true" style="height: 500px; display: none;"></div>
 							<center><button id="mdhtmlbtn" class="btn btn-primary shadow-none" onclick="toggleHtmlMd()">Render MarkDown</button></center>
+							<center><button id="saveAsPdf" class="btn btn-primary shadow-none mt-3" onclick="savePdf()" style="display: none;">Save as Pdf</button></center>
 						</div>
 					</div>
 				</div>
@@ -708,13 +720,16 @@
 		<!-- MarkDown to HTML render js -->
 		<script>
 
+			// Function to toggle html and md divs
 			function toggleHtmlMd() {
 				toggleHtmlMdBtn = document.getElementById("mdhtmlbtn");
 				if(toggleHtmlMdBtn.innerText == "Render MarkDown"){
 					md2html();
 					toggleHtmlMdBtn.innerText = "Edit MarkDown";
+					document.getElementById("saveAsPdf").style.display = "block";
 				}
 				else{
+					document.getElementById("saveAsPdf").style.display = "none";
 					md_div = document.getElementById("md_text_div");
 					html_div = document.getElementById("html_render_div");
 					html_div.style.display = "none";
@@ -722,6 +737,8 @@
 					toggleHtmlMdBtn.innerText = "Render MarkDown";
 				}
 			}
+
+			// Function to convert md to html (using remarkable)
 			function md2html() {
 				var md = new Remarkable();
 				// console.log(md);
@@ -734,6 +751,17 @@
 				html_div.style.display = "block";
 				md_div.style.display = "none";
 			}
+
+			// Function to save notes as pdf
+			function savePdf() {
+				var notes = document.getElementById("html_render_div");
+				html2pdf(notes);
+			}
+			// Limitations:
+			//     Don't know why, but everything is rendered as image.
+			//     Quality is lost when converted to pdf
+			//     Search for a better method
+
 		</script>
 	</body>
 </html>
