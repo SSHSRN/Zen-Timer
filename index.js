@@ -832,6 +832,7 @@ function buttonsDefaultState() {
 var alert = document.querySelector(".alert");
 var alertMessage = document.querySelector("#alertMessage");
 
+// Function to show alert message
 function showAlertMessage(session) {
 	alert.style.display = "block";
 	if (session === "pomodoro") {
@@ -848,18 +849,14 @@ function showAlertMessage(session) {
 		alert.classList.add("alert-primary");
 	}
 	alertMessage.innerHTML = allPossibleModes[session].alertMessage;
+	// Show alert message for 3 seconds
 	setTimeout(dismissAlert, 3000);
 }
 
+// Function to hide the alert
 function dismissAlert() {
 	alert.style.display = "none";
 }
-// Input Validation
-$('input[type="number"]').attr(
-	"onkeypress",
-	"return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 46 && event.charCode <= 57"
-);
-
 
 // Function before reload
 window.onbeforeunload = function(){

@@ -525,9 +525,12 @@
 						</div>
 						<div class="modal-body">
 							<div id="md_text_div" class="ml-3" contenteditable="true" style="height: 500px;"></div>
-							<div id="html_render_div" class="ml-3" contenteditable="true" style="height: 500px; display: none;"></div>
+							<div id="html_render_div" class="ml-3" style="height: 500px; display: none;"></div>
 							<center><button id="mdhtmlbtn" class="btn btn-primary shadow-none" onclick="toggleHtmlMd()">Render MarkDown</button></center>
-							<center><button id="saveAsPdf" class="btn btn-primary shadow-none mt-3" onclick="savePdf()" style="display: none;">Save as Pdf</button></center>
+							<div class="saveAndPrintNotesDiv" id="saveAndPrintNotesDiv" style="display: none;">
+								<center><button id="saveAsPdf" class="btn btn-primary shadow-none mt-3" onclick="savePdf()">Save as Pdf</button></center>
+								<center><button id="printPdf" class="btn btn-primary shadow-none mt-3" onclick="printNotes('html_render_div')">Print Notes</button></center>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -717,6 +720,10 @@
 		<!-- Project js file -->
 		<script src="index.js"></script>
 
+		<!-- jsPDF => render html as pdf -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
+
 		<!-- MarkDown to HTML render js -->
 		<script>
 
@@ -726,10 +733,10 @@
 				if(toggleHtmlMdBtn.innerText == "Render MarkDown"){
 					md2html();
 					toggleHtmlMdBtn.innerText = "Edit MarkDown";
-					document.getElementById("saveAsPdf").style.display = "block";
+					document.getElementById("saveAndPrintNotesDiv").style.display = "block";
 				}
 				else{
-					document.getElementById("saveAsPdf").style.display = "none";
+					document.getElementById("saveAndPrintNotesDiv").style.display = "none";
 					md_div = document.getElementById("md_text_div");
 					html_div = document.getElementById("html_render_div");
 					html_div.style.display = "none";
@@ -755,13 +762,77 @@
 			// Function to save notes as pdf
 			function savePdf() {
 				var notes = document.getElementById("html_render_div");
-				html2pdf(notes);
-			}
-			// Limitations:
-			//     Don't know why, but everything is rendered as image.
-			//     Quality is lost when converted to pdf
-			//     Search for a better method
+				// html2pdf:
+				// html2pdf(notes);
+				// html2pdf(notes, {
+				// 	margin: 10,
+				// 	filename: 'Noets.pdf',
+				// 	image: { type: 'jpeg', quality: 1 },
+				// 	html2canvas: { scale: 3, logging: true, dpi: 216, letterRendering: true },
+				// 	jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+				// });
 
+				// Limitations with html2pdf:
+				//     Don't know why, but everything is rendered as image when html2pdf is used.
+				//     Quality is lost when converted to pdf
+				//     Search for a better method
+
+				// blob:
+				// function downloadFile(filename, content) {
+				// const element = document.createElement('a');
+				// const blob = new Blob([content], { type: 'plain/text' });
+				// const fileUrl = URL.createObjectURL(blob);
+				// element.setAttribute('href', fileUrl); //file location
+				// element.setAttribute('download', filename); // file name
+				// element.style.display = 'none';
+				// document.body.appendChild(element);
+				// element.click();
+				// document.body.removeChild(element);
+				// };
+				// Limitations with blob:
+				//     Blob code is a bit complex to understand and implement.
+
+				// var doc = new jsPDF();
+				// // We'll make our own renderer to skip this editor
+				// var specialElementHandlers = {
+				//     '#editor': function(element, renderer){
+				//         return true;
+				//     }
+				// };
+
+				// // All units are in the set measurement for the document
+				// // This can be changed to "pt" (points), "mm" (Default), "cm", "in"
+				// doc.fromHTML($('body').get(0), 15, 15, {
+				//     'width': 170, 
+				//     'elementHandlers': specialElementHandlers
+				// });
+				// doc.save('Test.pdf');
+				saveNotesAsPdf("html_render_div");
+			}
+
+			function saveNotesAsPdf(divId) {
+				var doc = new jsPDF();
+				doc.fromHTML(`<html><head><title>Notes</title></head><body>` + 
+					document.getElementById(divId).innerHTML + `</body></html>`);
+				doc.save('notes.pdf');
+			}
+
+			function printNotes(divId) {
+				let mywindow = window.open('', 'PRINT', 'height=650,width=900,top=100,left=150');
+
+				mywindow.document.write(`<html><head><title>Notes</title>`);
+				mywindow.document.write('</head><body >');
+				mywindow.document.write(document.getElementById(divId).innerHTML);
+				mywindow.document.write('</body></html>');
+
+				mywindow.document.close(); // necessary for IE >= 10
+				mywindow.focus(); // necessary for IE >= 10*/
+
+				mywindow.print();
+				mywindow.close();
+				return true;
+			}
+			// Got saveNotes and printNotes functions from jsFiddle
 		</script>
 	</body>
 </html>
