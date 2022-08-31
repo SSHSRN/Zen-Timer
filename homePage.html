@@ -827,9 +827,13 @@
 
 				mywindow.document.close(); // necessary for IE >= 10
 				mywindow.focus(); // necessary for IE >= 10*/
+				// The focus() method sets focus to a window.
+				// The blur() method removes focus from a window.
 
 				mywindow.print();
+				// The print() method prints the contents of the current window.
 				mywindow.close();
+				// open() and close() methods are used to open and close a window.
 				return true;
 			}
 			// Got saveNotes and printNotes functions from jsFiddle

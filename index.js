@@ -53,7 +53,7 @@ var allPossibleModes = {
 		navButton: focus,
 		localStorage: localStorage.currentPomodoroValue,
 		alertMessage: "<strong>Time is up!</strong> Take a break",
-		titleDisplayText: "Time to Work!",
+		titleDisplayText: "It's Focus Time!",
 		progressColor: "red",
 	},
 	"long break": {
@@ -62,7 +62,7 @@ var allPossibleModes = {
 		navButton: longBreak,
 		localStorage: localStorage.currentLongBreakValue,
 		alertMessage: "<strong>Long break over!</strong> Get back to work",
-		titleDisplayText: "Time for a Break",
+		titleDisplayText: "It's Break Time!",
 		progressColor: "green",
 	},
 	"short break": {
@@ -71,7 +71,7 @@ var allPossibleModes = {
 		navButton: shortBreak,
 		localStorage: localStorage.currentShortBreakValue,
 		alertMessage: "<strong>Short break over!</strong> Get back to work",
-		titleDisplayText: "Time for a Break",
+		titleDisplayText: "It's Break Time!",
 		progressColor: "blue",
 	},
 };
@@ -129,26 +129,36 @@ function init() {
 
 	// To set active state to the particular tab(focus, short break, long break)
 	makePillsActive(currentTab);
+
 	// Display remaining time
 	contentDisplay();
+
 	// Remove active and clicked state from all the buttons
 	buttonsDefaultState();
+
 	// Check the values for already selected settings
 	displayTickSoundValue();
+
 	// Show the time intervals for different sessions(focus, short break, long break) in Settings-menu
 	displayTimeInputValues();
+
 	// Display the time before completion of a lap, to alert the user(Settings-menu)
 	displayNotificationValue();
+
 	// To show the last music the user was listening toString
 	// displayBackGroundMusic();
 	// To display the dark mode(enabled/disabled => Settings-menu)
 	displayDarkMode();
+
 	// To display activity log(Analytics-menu)
 	displayLog();
+
 	// To display the To-Do list
 	displayTodoList();
+
 	// To display the long break interval(Settings-menu)
 	displayLongBreakInterval();
+	
 	// To display slider value for Auto Start Rounds(Settings-menu)
 	displayAutoStartBreak();
 }
@@ -863,4 +873,4 @@ window.onbeforeunload = function(){
 	if(operationRunning){
 		return "Changes may not be saved"
 	}
-  };
+};
